@@ -1,0 +1,15 @@
+[user]
+  name = Sahel Mohammad Iqbal
+  email = sahel13miqbal@proton.me
+  signingkey = /home/sahel/.ssh/id_ed25519.pub
+[core]
+  editor = nvim
+  excludesfile = /home/sahel/.gitignore_global
+[init]
+  defaultBranch = main
+[pull]
+  rebase = false
+[github]
+  user = Sahel13
+[gpg]
+  format = ssh

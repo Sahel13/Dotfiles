@@ -1,0 +1,286 @@
+snippet template "A standard template for latex files."
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\mathtoolsset{showonlyrefs} % Only show referenced equations.
+
+% Custom commands
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\dd}{\mathrm{d}}
+
+\setlength{\parindent}{0em} % Paragraph indentation
+\setlength{\parskip}{1em} % Gap between paragraphs
+\renewcommand{\baselinestretch}{1.1} % Line height
+
+% Adjust the margins
+\usepackage{geometry}
+\geometry{
+	height=24cm,
+	width=15cm
+}
+
+% Hyperlink support.
+\usepackage[breaklinks,colorlinks]{hyperref}
+
+% Biblatex for citations.
+\usepackage[style=authoryear,sorting=nyt]{biblatex}
+\addbibresource{references.bib}
+
+\title{$1}
+\author{Sahel Iqbal}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+$2
+
+\printbibliography
+
+\end{document}
+endsnippet
+
+snippet beg "For generic environments." bA
+\begin{$1}
+	$2
+\end{$1}
+endsnippet
+
+snippet sec "New section" bA
+\section{$1}
+endsnippet
+
+snippet sub "New subsection" b
+\subsection{$1}
+endsnippet
+
+snippet ssub "New subsubsection" b
+\subsubsection{$1}
+endsnippet
+
+snippet equ "Equation" bA
+\begin{equation}
+	$1
+\end{equation}
+endsnippet
+
+snippet ali "Align" bA
+\begin{align}
+	$1
+\end{align}
+endsnippet
+
+snippet frac "Fraction" i
+\frac{$1}{$2}
+endsnippet
+
+snippet ite "Unordered list" bA
+\begin{itemize}
+	\item $1
+\end{itemize}
+endsnippet
+
+snippet enu "Ordered list" bA
+\begin{enumerate}
+	\item $1
+\end{enumerate}
+endsnippet
+
+snippet fig "Figure" bA
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=$1\textwidth]{images/${2:file_name}}
+	\caption{$3}
+	\label{fig:$4}
+\end{figure}
+endsnippet
+
+snippet subfigure
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{${1:file_name}}
+	\end{subfigure}
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{${2:file_name}}
+	\end{subfigure}
+	\caption{$3}
+	\label{fig:$4}
+\end{figure}
+endsnippet
+
+snippet presentation "New beamer presentation."
+\documentclass[10pt, aspectratio=1610]{beamer}
+
+\usepackage[utf8]{inputenc}
+
+% Theming
+\usetheme{Madrid}
+\usecolortheme{beaver}
+\usefonttheme{serif}
+\setbeamerfont{frametitle}{shape=\scshape}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\mathtoolsset{showonlyrefs}
+
+\usepackage[ruled]{algorithm2e}
+\usepackage{setspace}
+% Overlays shouldn't mess with algorithm numbers.
+\resetcounteronoverlays{algocf}
+
+% Biblatex for citations.
+\usepackage[style=authoryear,sorting=nyt]{biblatex}
+\addbibresource{references.bib}
+
+\title{$1}
+\author{Sahel Iqbal}
+\institute{Aalto University}
+\date{\today}
+
+\begin{document}
+	\maketitle
+
+	\AtBeginSection[] {
+		\begin{frame}
+			\frametitle{Table of contents}
+			\tableofcontents[currentsection]
+		\end{frame}
+	}
+
+	$2
+
+	% Bibliography
+	\begin{frame}[t, allowframebreaks]{References}
+		\printbibliography
+	\end{frame}
+
+\end{document}
+endsnippet
+
+snippet frame "Frame for beamer slides."
+\begin{frame}{$1}
+	$2
+\end{frame}
+endsnippet
+
+snippet block
+\begin{block}{${1:blocktitle}}
+	${2:content}
+\end{block}
+endsnippet
+
+snippet cite
+\cite{$1}
+endsnippet
+
+snippet columns
+\begin{columns}
+	\begin{column}{${1:0.5}\textwidth}
+		$2
+	\end{column}
+	\begin{column}{${3:0.5}\textwidth}
+		$4
+	\end{column}
+\end{columns}
+endsnippet
+
+snippet tbf "Bold font" iA
+\textbf{$1}
+endsnippet
+
+snippet mbf "Math bold font" iA
+\mathbf{$1}
+endsnippet
+
+snippet it "Italics"
+\textit{$1}
+endsnippet
+
+snippet dot "Dot derivative notation"
+\dot{$1}
+endsnippet
+
+snippet spl "Split environment"
+\begin{split}
+	$1
+\end{split}
+endsnippet
+
+snippet sube "Sub-equations" bA
+\begin{subequations}
+	\begin{align}
+		$0
+	\end{align}
+\end{subequations}
+endsnippet
+
+snippet sub* "Sub-equations non-numbered" bA
+\begin{subequations}
+	\begin{align*}
+		$0
+	\end{align*}
+\end{subequations}
+endsnippet
+
+snippet ref "Reference"
+\ref{$1}
+endsnippet
+
+snippet req "Cross reference an equation"
+\cref{eq:$1}
+endsnippet
+
+snippet mbb "\mathbb{}" iA
+\mathbb{$1}
+endsnippet
+
+snippet mcal "\mathcal{}" iA
+\mathcal{$1}
+endsnippet
+
+snippet vb "Vector bold notation" i
+\vb{$1}
+endsnippet
+
+snippet dv "Derivative"
+\frac{d$1}{d$2}
+endsnippet
+
+snippet pdv "Partial derivatives"
+\frac{\partial $1}{\partial $2}
+endsnippet
+
+snippet matrix "Matrix"
+\begin{pmatrix}$1\end{pmatrix}
+endsnippet
+
+snippet bar "Bar notation"
+\bar{$1}
+endsnippet
+
+snippet gau "Gaussian"
+\mathcal{N}($1, $2)
+endsnippet
+
+snippet \til "Tilde" iA
+\tilde{$1}
+endsnippet
+
+snippet tc "Cite in text" i
+\textcite{$1}
+endsnippet
+
+snippet pc "Cite in parethesis" i
+\parencite{$1}
+endsnippet
+
+snippet mscr "RSFS font" iA
+\mathscr{$1}
+endsnippet
