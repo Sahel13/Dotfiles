@@ -18,6 +18,9 @@ vim.o.smarttab = true
 vim.o.expandtab = true
 vim.o.smarttab = true
 
+-- Enable smart indenting.
+vim.o.breakindent = true
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode.
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
