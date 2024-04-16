@@ -17,6 +17,13 @@ return {
         end,
         desc = "Search in files",
       },
+      {
+        "<leader>fb",
+        function()
+          require("telescope.builtin").buffers()
+        end,
+        desc = "Browse buffers",
+      },
     },
     dependencies = {
       -- Required

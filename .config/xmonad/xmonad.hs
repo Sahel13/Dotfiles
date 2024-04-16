@@ -265,8 +265,8 @@ myKeys =
     , ("M-M1-s", spawn "signal-desktop")
 
     -- Function keys
-    -- , ("<XF86MonBrightnessUp>", spawn "/home/sahel/.local/scripts/backlight.sh +")
-    -- , ("<XF86MonBrightnessDown>", spawn "/home/sahel/.local/scripts/backlight.sh -")
+    , ("<XF86MonBrightnessUp>", spawn "/home/sahel/.local/scripts/backlight.sh +")
+    , ("<XF86MonBrightnessDown>", spawn "/home/sahel/.local/scripts/backlight.sh -")
     , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
     , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
     , ("<XF86AudioMute>", spawn "amixer set Master toggle")
