@@ -29,4 +29,4 @@ format-pendrive () {
 }
 
 # Command to backup my `Documents` directory.
-alias backup="rclone sync --interactive --skip-links /home/sahel/Documents Dropbox:Thinkpad_Backup --exclude 'out_dir/' --exclude 'aux_dir/' --exclude '.git/' --exclude '.obsidian/' --exclude 'courses/writing/'"
+alias backup="~/.local/scripts/rclone_backup.sh"
