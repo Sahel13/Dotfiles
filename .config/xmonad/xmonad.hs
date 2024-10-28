@@ -71,7 +71,7 @@ myTerminal :: String = "alacritty"
 xmobar1 = statusBarPropTo "_XMONAD_LOG" "xmobar -x 0 ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
 xmobar2 = statusBarPropTo "_XMONAD_LOG" "xmobar -x 1 ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
 
-barSpawner :: ScreenId -> IO StatusBarConfig
+barSpawner :: ScreenId -> X StatusBarConfig
 barSpawner 0 = pure $ xmobar1
 barSpawner 1 = pure $ xmobar2
 barSpawner _ = mempty
@@ -91,7 +91,7 @@ myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] $ def
     formatUnfocused = wrap (offWhite "[") (offWhite "]") . brown . ppWindow
 
     ppWindow :: String -> String
-    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 26
+    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shortenLeft 25
  
     offWhite, brown, red, white, yellow :: String -> String
     brown    = xmobarColor "#a52a2a" ""
