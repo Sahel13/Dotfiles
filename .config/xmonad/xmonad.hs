@@ -20,7 +20,6 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.TwoPane
 import XMonad.Layout.Magnifier
 import XMonad.Layout.Renamed
-import qualified XMonad.Layout.ToggleLayouts as TL
 
 -- Keybindings
 import XMonad.Util.EZConfig (additionalKeysP)
@@ -118,7 +117,7 @@ myLogHook = workspaceHistoryHookExclude [scratchpadWorkspaceTag]
 ------------------------------------------------------------------
 -- LayoutHook
 ------------------------------------------------------------------
-myLayoutHook = smartBorders $ TL.toggleLayouts twopane (tiled ||| Full)
+myLayoutHook = smartBorders (tiled ||| Full)
   where
     tiled = renamed [Replace "Tall"] $ magnifierczOff' 1.3
                                        $ ResizableTall 1 delta ratio []
@@ -256,8 +255,6 @@ myKeys =
     -- Shrink/expand windows vertically in the Tall layout.
     , ("M-a", sendMessage MirrorShrink)
     , ("M-z", sendMessage MirrorExpand)
-
-    , ("M-S-<Space>", sendMessage TL.ToggleLayout)
 
     -- Applications
     , ("M-S-<Return>", proc $ inTerm >-> setXClass "Ranger" >-> execute "ranger")
