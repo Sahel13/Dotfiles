@@ -196,17 +196,20 @@ topicConfig = def
 spawnTermInTopic :: X ()
 spawnTermInTopic = proc $ termInDir >-$ currentTopicDir topicConfig
 
--- Switch to a topic.
 goto :: Topic -> X ()
 goto = switchTopic topicConfig
+
+-- Prompt to switch to a topic.
+promptedGoto :: X ()
+promptedGoto = workspacePrompt prompt goto
+
+-- Prompt to move the selected window to a topic.
+promptedShift :: X ()
+promptedShift = workspacePrompt prompt $ windows . W.shift
 
 -- Toggle between the two most recently used topics.
 toggleTopic :: X ()
 toggleTopic = switchNthLastFocusedByScreen topicConfig 1
-
--- Topic space prompt.
-promptedGoto :: X ()
-promptedGoto = workspacePrompt prompt goto
 
 ------------------------------------------------------------------
 -- Prompt configuration.
@@ -271,6 +274,7 @@ myKeys =
     -- Topic space keybindings.
     , ("M-<Tab>", toggleTopic)
     , ("M-g", promptedGoto)
+    , ("M-S-g", promptedShift)
     ]
     ++
     [ ("M-" ++ m ++ k, f i)
