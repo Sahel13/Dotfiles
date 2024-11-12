@@ -9,5 +9,6 @@ return {
     }
     vim.g.vimtex_indent_enabled = 0
     vim.g.vimtex_subfile_start_local = 1
+    vim.g.vimtex_view_method = "zathura"
   end,
 }

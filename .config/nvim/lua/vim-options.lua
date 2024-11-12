@@ -10,6 +10,9 @@ vim.o.smartcase = true
 vim.o.spell = true
 vim.o.spelllang = "en_us"
 
+-- Scrolloff
+vim.o.scrolloff = 30
+
 -- Default tab behavior.
 vim.o.tabstop = 2
 vim.o.softtabstop = 2

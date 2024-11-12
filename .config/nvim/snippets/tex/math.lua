@@ -28,7 +28,7 @@ return {
     { condition = line_begin }
   ),
   s(
-    { trig = "([^%a])mm", dscr = "Inline math", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+    { trig = "mm", dscr = "Inline math", wordTrig = true, snippetType = "autosnippet" },
     fmta("<>$<>$", {
       f(function(_, snip)
         return snip.captures[1]
@@ -62,6 +62,18 @@ return {
     { condition = line_begin }
   ),
   s(
+    { trig = "def", dscr = "Definition" },
+    fmta(
+      [[
+        \begin{definition}[<>]
+          <>
+        \end{definition}
+      ]],
+      { i(1), i(2) }
+    ),
+    { condition = line_begin }
+  ),
+  s(
     { trig = "bb([%u])", dscr = "\\mathbb", regTrig = true, snippetType = "autosnippet" },
     fmta("\\mathbb{<>}", {
       f(function(_, snip)
@@ -88,6 +100,36 @@ return {
     }),
     { condition = tex_utils.in_math }
   ),
+  s(
+    { trig = "hat([%a])", dscr = "\\hat", regTrig = true, snippetType = "autosnippet" },
+    fmta("\\hat{<>}", {
+      f(function(_, snip)
+        return snip.captures[1]
+      end),
+    }),
+    { condition = tex_utils.in_math }
+  ),
+  s(
+    { trig = "pdt", dscr = "Partial derivative w.r.t t", snippetType = "autosnippet" },
+    fmta("\\frac{\\partial <>}{\\partial t}", { i(1) }),
+    { condition = tex_utils.in_math }
+  ),
+  s(
+    {
+      trig = "([%a%}%)])%^t",
+      dscr = "Replace t with \\top for transpose.",
+      regTrig = true,
+      wordTrig = false,
+    },
+    fmta("<>^\\top", {
+      f(function(_, snip)
+        return snip.captures[1]
+      end),
+    })
+  ),
+
+  -- Text commands.
+  s({ trig = "bar", dscr = "\\bar" }, fmta("\\bar{<>}", { i(1) })),
   s(
     { trig = "hat([%a])", dscr = "\\hat", regTrig = true, snippetType = "autosnippet" },
     fmta("\\hat{<>}", {
