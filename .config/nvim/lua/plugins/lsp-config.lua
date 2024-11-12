@@ -8,7 +8,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = { "lua_ls", "pylsp" },
+      ensure_installed = { "lua_ls", "pyright", "ruff" },
     },
   },
   {
@@ -22,14 +22,22 @@ return {
         },
       })
 
-      -- Python language server setup.
-      lspconfig.pylsp.setup({
+      -- Pyright setup
+      lspconfig.pyright.setup({
         settings = {
-          pylsp = {
-            plugins = { pycodestyle = { ignore = { "E501", "E203" } } },
+          pyright = {
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              -- Ignore all files for analysis to exclusively use Ruff for linting
+              ignore = { "*" },
+            },
           },
         },
       })
+      lspconfig.ruff.setup({})
 
       -- Keybindings
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Display hover information" })
@@ -55,7 +63,14 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
-        python = { "isort", "black" },
+        python = {
+          -- To fix auto-fixable lint errors.
+          "ruff_fix",
+          -- To run the Ruff formatter.
+          "ruff_format",
+          -- To organize imports.
+          "ruff_organize_imports",
+        },
       },
       format_on_save = { timeout_ms = 500, lsp_fallback = true },
     },
