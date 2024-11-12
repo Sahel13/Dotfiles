@@ -47,7 +47,7 @@ cursor = "CellForeground"
 text = "CellBackground"
 
 [font]
-size = 16.0
+size = 15.0
 
 [font.normal]
 family = "Mononoki Nerd Font Mono"
