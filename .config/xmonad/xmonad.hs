@@ -176,7 +176,9 @@ topicItems =
     , noAction "chat" "~"
     , noAction "misc" "~"
     -- , inHome "python" $ customPythonAction 
-    , TI "notes" "~/Documents/latex/notes/" spawnTermInTopic
+    , TI "latex" "~/Documents/latex/" spawnTermInTopic
+    , TI "pomdp" "~/Code/particle-pomdp/" $ spawn "pycharm-professional"
+    , TI "haskell" "~/Code/haskell-mooc/exercises/" spawnTermInTopic
     ]
   -- where
   --   -- Just a demo.

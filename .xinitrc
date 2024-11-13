@@ -32,9 +32,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-# Power manager
-xfce4-power-manager &
-
 # Compositor
 picom -b &
 
