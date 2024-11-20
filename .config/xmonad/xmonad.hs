@@ -36,6 +36,12 @@ import XMonad.Prompt.Workspace
 import XMonad.Util.Run
 import XMonad.Hooks.WorkspaceHistory (workspaceHistoryHook)
 
+-- For custom file prompt
+import Control.Monad (forM)
+import System.Directory (listDirectory, doesDirectoryExist)
+import System.FilePath ((</>), makeRelative)
+import XMonad.Prompt.Input
+
 ------------------------------------------------------------------
 -- Main
 ------------------------------------------------------------------
@@ -203,11 +209,11 @@ goto = switchTopic topicConfig
 
 -- Prompt to switch to a topic.
 promptedGoto :: X ()
-promptedGoto = workspacePrompt prompt goto
+promptedGoto = workspacePrompt promptConfig goto
 
 -- Prompt to move the selected window to a topic.
 promptedShift :: X ()
-promptedShift = workspacePrompt prompt $ windows . W.shift
+promptedShift = workspacePrompt promptConfig $ windows . W.shift
 
 -- Toggle between the two most recently used topics.
 toggleTopic :: X ()
@@ -216,17 +222,50 @@ toggleTopic = switchNthLastFocusedByScreen topicConfig 1
 ------------------------------------------------------------------
 -- Prompt configuration.
 ------------------------------------------------------------------
-prompt :: XPConfig
-prompt = def
+promptConfig :: XPConfig
+promptConfig = def
     { font = "xft: Mononoki Nerd Font Mono-14"
     , fgColor = "#f9f9ff"
     , bgColor = "#1d1d1d"
+    , bgHLight = "1d1d1d"
+    , fgHLight = "#f9f9ff"
     , borderColor = "#ff5555"
+    , position = CenteredAt 0.4 0.25
+    , alwaysHighlight = True
     , height = 30
-    , autoComplete = Just (2 * 10^3)
+    , maxComplRows = Just 20
+    , maxComplColumns = Just 1
+    , autoComplete = Just (10^3)
     , searchPredicate = fuzzyMatch
     , sorter = fuzzySort
     }
+
+------------------------------------------------------------------
+-- Custom prompt to open my references.
+------------------------------------------------------------------
+-- | Recursively lists all files in a directory and its sub-directories,
+-- returning file paths relative to the input directory.
+listFiles :: String -> IO [String]
+listFiles baseDir = listFiles' baseDir
+  where
+    listFiles' dir = do
+        contents <- listDirectory dir
+        let fullPaths = map (dir </>) contents
+        paths <- forM fullPaths $ \path -> do
+            isDir <- doesDirectoryExist path
+            if isDir
+                then listFiles' path
+                else return [makeRelative baseDir path]
+        return (concat paths)
+
+filePrompt :: String -> (String -> X ()) -> X ()
+filePrompt dir action = do
+    files <- io $ listFiles dir
+    inputPromptWithCompl promptConfig "open file" (mkComplFunFromList promptConfig files) ?+ action
+
+-- Prompt to open files in a given directory with Zathura.
+pdfPrompt :: String -> X ()
+pdfPrompt dir = filePrompt dir (\file -> spawn $ "zathura " ++ dir </> file)
 
 ------------------------------------------------------------------
 -- Keybindings
@@ -277,6 +316,9 @@ myKeys =
     , ("M-<Tab>", toggleTopic)
     , ("M-g", promptedGoto)
     , ("M-S-g", promptedShift)
+
+    -- File prompt.
+    , ("M-f", pdfPrompt "/home/sahel/Documents/references")
     ]
     ++
     [ ("M-" ++ m ++ k, f i)
