@@ -2,10 +2,9 @@ Config { font            = "Mononoki Nerd Font Mono 14"
 	     , additionalFonts = ["Font Awesome 6 Free Solid 14"]
        , bgColor         = "#1d1d1d"
        , fgColor         = "#f8f8ff"
-       , position        = BottomSize L 92 30
+       , position        = BottomSize L 100 30
 
-       , commands = [ Run XMonadLog
-
+       , commands = [ Run XPropertyLog "_XMONAD_LOG_1"
        -- cpu activity monitor
        -- , Run MultiCpu       [ "--template" , "<fn=1>\xf2db</fn> <total0>%"
        --                      , "--Low"      , "50"         -- units: %
@@ -56,7 +55,7 @@ Config { font            = "Mononoki Nerd Font Mono 14"
        -- layout
        , sepChar =  "%"   -- delineator between plugin names and straight text
        , alignSep = "}{"  -- separator between left-right alignment
-       , template = "%XMonadLog% }{ %battery% | %alsa:default:Master% | %date% |"
+       , template = "%_XMONAD_LOG_1% }{ %battery% | %alsa:default:Master% | %date% "
 
        -- general behavior
        , lowerOnStart =     True    -- send to bottom of window stack on start

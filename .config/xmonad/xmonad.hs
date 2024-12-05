@@ -8,7 +8,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
-import XMonad.Util.Loggers (logTitles)
+import XMonad.Util.Loggers (logTitlesOnScreen)
 import XMonad.Hooks.ManageHelpers (isDialog)
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
@@ -74,30 +74,31 @@ myTerminal :: String = "alacritty"
 ------------------------------------------------------------------
 -- Xmobar
 ------------------------------------------------------------------
-xmobar1 = statusBarPropTo "_XMONAD_LOG" "xmobar -x 0 ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
-xmobar2 = statusBarPropTo "_XMONAD_LOG" "xmobar -x 1 ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
+xmobar0 = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.config/xmobar/xmobarrc0" $ myXmobarPP 0
+xmobar1 = statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.config/xmobar/xmobarrc1" $ myXmobarPP 1
 
 barSpawner :: ScreenId -> X StatusBarConfig
-barSpawner 0 = pure $ xmobar1
-barSpawner 1 = pure $ xmobar2
+barSpawner 0 = pure xmobar0
+barSpawner 1 = pure xmobar1
 barSpawner _ = mempty
 
-myXmobarPP :: PP
-myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] $ def
+myXmobarPP :: ScreenId -> X PP
+myXmobarPP id = pure $ filterOutWsPP [scratchpadWorkspaceTag] $ def
     { ppSep     = red " • "
     , ppCurrent = wrap "" "" . xmobarBorder "Top" "#ff0000" 2
     , ppVisible = white
     , ppHidden  = offWhite
     , ppUrgent  = red . wrap (yellow "!") (yellow "!")
     , ppOrder   = \[ws, l, _, wins] -> [ws, l, wins]
-    , ppExtras  = [logTitles formatFocused formatUnfocused]
+    , ppExtras  = [logTitlesOnScreen id formatFocused formatUnfocused]
     }
   where
-    formatFocused   = wrap (white "[") (white "]") . red . ppWindow
-    formatUnfocused = wrap (offWhite "[") (offWhite "]") . brown . ppWindow
+    formatFocused   = wrap (white "[") (white "]") . red . ppWindow True
+    formatUnfocused = wrap (offWhite "[") (offWhite "]") . brown . ppWindow False
 
-    ppWindow :: String -> String
-    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shortenLeft 25
+    ppWindow :: Bool -> String -> String
+    ppWindow focused = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten titleLength
+      where titleLength = if focused then 30 else 15
  
     offWhite, brown, red, white, yellow :: String -> String
     brown    = xmobarColor "#a52a2a" ""

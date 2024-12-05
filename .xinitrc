@@ -45,7 +45,7 @@ unclutter -noevents &
 xsetroot -cursor_name left_ptr
 
 # Trayer
-trayer --edge bottom --align right --SetDockType true --SetPartialStrut true --expand true --width 8 --transparent true --alpha 4 --tint 0x000000 --height 30 &
+trayer --edge bottom --align right --SetDockType true --SetPartialStrut true --expand true --width 8 --transparent true --alpha 4 --tint 0x000000 --height 30 --monitor "primary" &
 
 # Network manager applet
 nm-applet &
