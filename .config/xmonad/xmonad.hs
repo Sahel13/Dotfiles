@@ -104,7 +104,7 @@ myXmobarPP sid = pure $ filterOutWsPP [scratchpadWorkspaceTag] $ def
     ppWindow :: Bool -> String -> String
     ppWindow focused = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten titleLength
       where titleLength = if focused then 30 else 15
- 
+
     offWhite, brown, red, white, yellow :: String -> String
     brown    = xmobarColor "#a52a2a" ""
     white    = xmobarColor "#f8f8f2" ""
@@ -155,9 +155,9 @@ myManageHook = composeAll
 ------------------------------------------------------------------
 myScratchpads =
     [ NS "terminal" spawnTerm findTerm manageTerm
-    , NS "network" spawnNetwork findNetwork manageNetwork 
-    , NS "htop" spawnHtop findHtop manageHtop 
-    , NS "thunar" spawnThunar findThunar manageThunar 
+    , NS "network" spawnNetwork findNetwork manageNetwork
+    , NS "htop" spawnHtop findHtop manageHtop
+    , NS "thunar" spawnThunar findThunar manageThunar
     ]
   where
     spawnTerm = myTerminal ++ " -t terminal"
@@ -196,7 +196,7 @@ topicItems =
   --   -- Just a demo.
   --   customPythonAction :: X ()
   --   customPythonAction = sendMessage (JumpToLayout "Full")
-  --                      *> spawnTermInTopic 
+  --                      *> spawnTermInTopic
 
 topicConfig :: TopicConfig
 topicConfig = def
