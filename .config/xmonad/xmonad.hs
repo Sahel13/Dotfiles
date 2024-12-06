@@ -295,9 +295,9 @@ myKeys =
     , ("M-S-h", namedScratchpadAction myScratchpads "htop")
     , ("M1-S-<Return>", namedScratchpadAction myScratchpads "thunar")
 
-    -- Multi-monitor navigation
-    , ("M-.", nextScreen)
-    , ("M-,", prevScreen)
+    -- Clockwise multi-monitor navigation
+    , ("M-.", prevScreen)
+    , ("M-,", nextScreen)
 
     -- Toggle magnification in the Tall layout.
     , ("M-S-m", sendMessage Toggle)
