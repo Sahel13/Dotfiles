@@ -3,6 +3,7 @@
 ------------------------------------------------------------------
 import XMonad
 import System.Exit (exitSuccess)
+import Data.List (find)
 
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops
@@ -74,23 +75,27 @@ myTerminal :: String = "alacritty"
 ------------------------------------------------------------------
 -- Xmobar
 ------------------------------------------------------------------
-xmobar0 = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.config/xmobar/xmobarrc0" $ myXmobarPP 0
-xmobar1 = statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.config/xmobar/xmobarrc1" $ myXmobarPP 1
-
 barSpawner :: ScreenId -> X StatusBarConfig
-barSpawner 0 = pure xmobar0
-barSpawner 1 = pure xmobar1
+barSpawner 0 = pure $ statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.config/xmobar/xmobarrc0" $ myXmobarPP 0
+barSpawner 1 = pure $ statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.config/xmobar/xmobarrc1" $ myXmobarPP 1
 barSpawner _ = mempty
 
+-- | A custom logger for the number of windows in a screen.
+windowCount :: ScreenId -> X (Maybe String)
+windowCount sid = withWindowSet $ \ws -> pure
+    $ find ((== sid) . W.screen) (W.screens ws)
+    >>= \screen -> let n = length . W.integrate' . W.stack . W.workspace $ screen
+                   in if n < 2 then Just "" else Just (show n)
+
 myXmobarPP :: ScreenId -> X PP
-myXmobarPP id = pure $ filterOutWsPP [scratchpadWorkspaceTag] $ def
+myXmobarPP sid = pure $ filterOutWsPP [scratchpadWorkspaceTag] $ def
     { ppSep     = red " • "
     , ppCurrent = wrap "" "" . xmobarBorder "Top" "#ff0000" 2
     , ppVisible = white
     , ppHidden  = offWhite
     , ppUrgent  = red . wrap (yellow "!") (yellow "!")
-    , ppOrder   = \[ws, l, _, wins] -> [ws, l, wins]
-    , ppExtras  = [logTitlesOnScreen id formatFocused formatUnfocused]
+    , ppOrder   = \[ws, l, _, c, wins] -> [ws, l, c, wins]
+    , ppExtras  = [windowCount sid, logTitlesOnScreen sid formatFocused formatUnfocused]
     }
   where
     formatFocused   = wrap (white "[") (white "]") . red . ppWindow True
