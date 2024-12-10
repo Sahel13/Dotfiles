@@ -78,6 +78,7 @@ myTerminal :: String = "alacritty"
 barSpawner :: ScreenId -> X StatusBarConfig
 barSpawner 0 = pure $ statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.config/xmobar/xmobarrc0" $ myXmobarPP 0
 barSpawner 1 = pure $ statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.config/xmobar/xmobarrc1" $ myXmobarPP 1
+barSpawner 2 = pure $ statusBarPropTo "_XMONAD_LOG_2" "xmobar -x 2 ~/.config/xmobar/xmobarrc2" $ myXmobarPP 2
 barSpawner _ = mempty
 
 -- | A custom logger for the number of windows in a screen.

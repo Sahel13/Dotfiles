@@ -1,0 +1,68 @@
+Config { font            = "Mononoki Nerd Font Mono 14"
+	     , additionalFonts = ["Font Awesome 6 Free Solid 14"]
+       , bgColor         = "#1d1d1d"
+       , fgColor         = "#f8f8ff"
+       , position        = BottomSize L 100 30
+
+       , commands = [ Run XPropertyLog "_XMONAD_LOG_2"
+       -- cpu activity monitor
+       -- , Run MultiCpu       [ "--template" , "<fn=1>\xf2db</fn> <total0>%"
+       --                      , "--Low"      , "50"         -- units: %
+       --                      , "--High"     , "85"         -- units: %
+       --                      , "--high"     , "darkred"
+       --                      ] 10
+
+       -- -- memory usage monitor
+       -- , Run Memory         [ "--template" ,"<fn=1>\xf538</fn> <usedratio>%"
+       --                      , "--Low"      , "20"        -- units: %
+       --                      , "--High"     , "90"        -- units: %
+       --                      , "--high"     , "darkred"
+       --                      ] 10
+
+       -- cpu core temperature monitor
+       -- , Run CoreTemp ["-t", "<fn=1>\xf2c8</fn> <core0> C",
+       --                "-L", "50", "-H", "80",
+       --                "-l", "lightblue", "-h", "red"] 50
+              
+       -- sound
+       , Run Alsa "default" "Master"
+                               [ "--template", "<fn=1>\xf027</fn> <volumestatus>"
+                               , "--suffix"  , "True"
+                               , "--"
+                               , "--on", ""
+                               ]
+
+       -- battery monitor
+       , Run Battery        [ "--template" , "<fn=1>\xf241</fn> <acstatus>"
+                            , "--Low"      , "30"        -- units: %
+                            , "--High"     , "70"        -- units: %
+                            , "--l"     , "darkred"
+                            , "--h"     , "darkred"
+
+                            , "--" -- battery specific options
+                                      -- discharging status
+                                      , "-o"	, "<left>%"
+                                      -- AC "on" status
+                                      , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                      -- charged status
+                                      , "-i"	, "<fc=#006000>Charged</fc>"
+                            ] 50
+
+       -- time and date indicator
+       , Run Date "<fn=1>\xf073</fn> %A, %d %B | <fn=1>\xf017</fn> %H:%M" "date" 10
+       ]
+
+       -- layout
+       , sepChar =  "%"   -- delineator between plugin names and straight text
+       , alignSep = "}{"  -- separator between left-right alignment
+       , template = "%_XMONAD_LOG_2%"
+
+       -- general behavior
+       , lowerOnStart =     True    -- send to bottom of window stack on start
+       , hideOnStart =      False   -- start with window unmapped (hidden)
+       , allDesktops =      True    -- show on all desktops
+       , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+       , pickBroadest =     False   -- choose widest display (multi-monitor)
+       , persistent =       True    -- enable/disable hiding (True = disabled)
+
+       }
