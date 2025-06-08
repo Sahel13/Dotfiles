@@ -1,8 +1,9 @@
 typeset -U path PATH
 path=(
   ~/.local/bin
-  ~/Misc/texlive/2024/bin/x86_64-linux
+  ~/Misc/texlive/2025/bin/x86_64-linux
   ~/Misc/juliaup/bin
+  ~/.config/emacs/bin
   $path
 )
 export PATH

@@ -18,7 +18,6 @@ import XMonad.Actions.UpdatePointer
 -- Layouts
 import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.ResizableTile
-import XMonad.Layout.TwoPane
 import XMonad.Layout.Magnifier
 import XMonad.Layout.Renamed
 
@@ -103,7 +102,7 @@ myXmobarPP sid = pure $ filterOutWsPP [scratchpadWorkspaceTag] $ def
     formatUnfocused = wrap (offWhite "[") (offWhite "]") . brown . ppWindow False
 
     ppWindow :: Bool -> String -> String
-    ppWindow focused = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten titleLength
+    ppWindow focused = xmobarRaw . (\w -> if null w then "untitled" else w) . shortenLeft titleLength
       where titleLength = if focused then 30 else 15
 
     offWhite, brown, red, white, yellow :: String -> String
@@ -134,7 +133,6 @@ myLayoutHook = smartBorders (tiled ||| Full)
   where
     tiled = renamed [Replace "Tall"] $ magnifierczOff' 1.3
                                        $ ResizableTall 1 delta ratio []
-    twopane = TwoPane delta ratio
     delta = 3/100
     ratio = 1/2
 
@@ -145,8 +143,8 @@ myManageHook = composeAll
     [ className =? "firefox" --> doShift "web"
     , className =? "vlc" --> doShift "misc"
     , className =? "zoom" --> doShift "main"
-    , className =? "zoom" --> doFloat
     , className =? "Signal" --> doShift "chat"
+    , className =? "discord" --> doShift "chat"
     , isDialog --> doFloat
     , namedScratchpadManageHook myScratchpads
     ]
@@ -188,16 +186,8 @@ topicItems =
     , noAction "code" "~"
     , noAction "chat" "~"
     , noAction "misc" "~"
-    -- , inHome "python" $ customPythonAction 
     , TI "latex" "~/Documents/latex/" spawnTermInTopic
-    , TI "pomdp" "~/Code/particle-pomdp/" $ spawn "pycharm-professional"
-    , TI "haskell" "~/Code/haskell-mooc/exercises/" spawnTermInTopic
     ]
-  -- where
-  --   -- Just a demo.
-  --   customPythonAction :: X ()
-  --   customPythonAction = sendMessage (JumpToLayout "Full")
-  --                      *> spawnTermInTopic
 
 topicConfig :: TopicConfig
 topicConfig = def
@@ -226,6 +216,13 @@ promptedShift = workspacePrompt promptConfig $ windows . W.shift
 toggleTopic :: X ()
 toggleTopic = switchNthLastFocusedByScreen topicConfig 1
 
+topicKeymaps :: [(String, X ())]
+topicKeymaps =
+    [ ("M-<Tab>", toggleTopic)
+    , ("M-g", promptedGoto)
+    , ("M-S-g", promptedShift)
+    ]
+
 ------------------------------------------------------------------
 -- Prompt configuration.
 ------------------------------------------------------------------
@@ -248,9 +245,9 @@ promptConfig = def
     }
 
 ------------------------------------------------------------------
--- Custom prompt to open my references.
+-- A custom prompt to open my references.
 ------------------------------------------------------------------
--- | Recursively lists all files in a directory and its sub-directories,
+-- | Recursively list all files in a directory and its sub-directories,
 -- returning file paths relative to the input directory.
 listFiles :: String -> IO [String]
 listFiles baseDir = listFiles' baseDir
@@ -265,14 +262,19 @@ listFiles baseDir = listFiles' baseDir
                 else return [makeRelative baseDir path]
         return (concat paths)
 
+-- | Given a `directory` and an `action`, `filePrompt` returns a prompt
+-- with the files from `directory` and applies `action` to the chosen file.
 filePrompt :: String -> (String -> X ()) -> X ()
-filePrompt dir action = do
-    files <- io $ listFiles dir
+filePrompt directory action = do
+    files <- io $ listFiles directory
     inputPromptWithCompl promptConfig "open file" (mkComplFunFromList promptConfig files) ?+ action
 
--- Prompt to open files in a given directory with Zathura.
+-- | Prompt to open files in a given directory with Zathura.
 pdfPrompt :: String -> X ()
 pdfPrompt dir = filePrompt dir (\file -> spawn $ "zathura " ++ dir </> file)
+
+promptKeymaps :: [(String, X ())]
+promptKeymaps = [("M-f", pdfPrompt "/home/sahel/Documents/references")]
 
 ------------------------------------------------------------------
 -- Keybindings
@@ -290,7 +292,7 @@ myKeys =
     , ("<Print>", spawn "flameshot gui")
     , ("M-S-x", spawn "/home/sahel/.local/scripts/screen_lock.sh")
 
-        -- Scratchpads
+    -- Scratchpads
     , ("M-C-<Return>", namedScratchpadAction myScratchpads "terminal")
     , ("M-S-n", namedScratchpadAction myScratchpads "network")
     , ("M-S-h", namedScratchpadAction myScratchpads "htop")
@@ -308,9 +310,10 @@ myKeys =
     , ("M-z", sendMessage MirrorExpand)
 
     -- Applications
-    , ("M-S-<Return>", proc $ inTerm >-> setXClass "Ranger" >-> execute "ranger")
+    , ("M-S-<Return>", spawn "ranger")
     , ("M-M1-f", spawn "firefox")
     , ("M-M1-s", spawn "signal-desktop")
+    , ("M-e", spawn "emacsclient --create-frame --alternate-editor=''")
 
     -- Function keys
     , ("<XF86MonBrightnessUp>", spawn "/home/sahel/.local/scripts/backlight.sh +")
@@ -318,17 +321,11 @@ myKeys =
     , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
     , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
     , ("<XF86AudioMute>", spawn "amixer set Master toggle")
-
-    -- Topic space keybindings.
-    , ("M-<Tab>", toggleTopic)
-    , ("M-g", promptedGoto)
-    , ("M-S-g", promptedShift)
-
-    -- File prompt.
-    , ("M-f", pdfPrompt "/home/sahel/Documents/references")
     ]
     ++
     [ ("M-" ++ m ++ k, f i)
     | (i, k) <- zip (topicNames topicItems) (map show [1 .. 9 :: Int])
     , (f, m) <- [(goto, ""), (windows . W.shift, "S-")]
     ]
+    ++ topicKeymaps
+    ++ promptKeymaps

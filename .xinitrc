@@ -47,5 +47,11 @@ trayer --edge bottom --align right --SetDockType true --SetPartialStrut true --e
 # Network manager applet
 nm-applet &
 
+# Break timer
+workrave &
+
+# Emacs
+/usr/bin/emacs --daemon &
+
 # Start xmonad
 exec xmonad
