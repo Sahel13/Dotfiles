@@ -14,7 +14,6 @@ return {
     fmta("\\frac{<>}{<>}", { i(1), i(2) }),
     { condition = tex_utils.in_math }
   ),
-  s({ trig = "emp", dscr = "\\emph" }, fmta("\\emph{<>}", { i(1) }), { condition = tex_utils.in_text }),
   s(
     { trig = "eq", dscr = "Equation", snippetType = "autosnippet" },
     fmta(
@@ -62,17 +61,23 @@ return {
     { condition = line_begin }
   ),
   s(
-    { trig = "def", dscr = "Definition" },
-    fmta(
-      [[
-        \begin{definition}[<>]
-          <>
-        \end{definition}
-      ]],
-      { i(1), i(2) }
-    ),
-    { condition = line_begin }
+    {
+      trig = "([%a%}%)])%^t",
+      dscr = "Replace t with \\top for transpose.",
+      regTrig = true,
+      wordTrig = false,
+    },
+    fmta("<>^\\top", {
+      f(function(_, snip)
+        return snip.captures[1]
+      end),
+    })
   ),
+
+  -- Text commands.
+  s({ trig = "bar", dscr = "\\bar" }, fmta("\\bar{<>}", { i(1) })),
+  s({ trig = "hat", dscr = "\\bar" }, fmta("\\hat{<>}", { i(1) })),
+  s({ trig = "pdv", dscr = "Partial derivative" }, fmta("\\frac{\\partial <>}{\\partial <>}", { i(1), i(2) })),
   s(
     { trig = "bb([%u])", dscr = "\\mathbb", regTrig = true, snippetType = "autosnippet" },
     fmta("\\mathbb{<>}", {
@@ -101,41 +106,22 @@ return {
     { condition = tex_utils.in_math }
   ),
   s(
-    { trig = "hat([%a])", dscr = "\\hat", regTrig = true, snippetType = "autosnippet" },
-    fmta("\\hat{<>}", {
+    { trig = "([%a%d%}%)])_", dscr = "Subscript", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+    fmta("<>_{<>}", {
       f(function(_, snip)
         return snip.captures[1]
       end),
+      i(1),
     }),
     { condition = tex_utils.in_math }
   ),
   s(
-    { trig = "pdt", dscr = "Partial derivative w.r.t t", snippetType = "autosnippet" },
-    fmta("\\frac{\\partial <>}{\\partial t}", { i(1) }),
-    { condition = tex_utils.in_math }
-  ),
-  s(
-    {
-      trig = "([%a%}%)])%^t",
-      dscr = "Replace t with \\top for transpose.",
-      regTrig = true,
-      wordTrig = false,
-    },
-    fmta("<>^\\top", {
+    { trig = "([%a%d%}%)%]])^", dscr = "Superscript", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+    fmta("<>^{<>}", {
       f(function(_, snip)
         return snip.captures[1]
       end),
-    })
-  ),
-
-  -- Text commands.
-  s({ trig = "bar", dscr = "\\bar" }, fmta("\\bar{<>}", { i(1) })),
-  s(
-    { trig = "hat([%a])", dscr = "\\hat", regTrig = true, snippetType = "autosnippet" },
-    fmta("\\hat{<>}", {
-      f(function(_, snip)
-        return snip.captures[1]
-      end),
+      i(1),
     }),
     { condition = tex_utils.in_math }
   ),

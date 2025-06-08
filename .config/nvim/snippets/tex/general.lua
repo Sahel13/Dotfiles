@@ -13,6 +13,18 @@ return {
     )
   ),
   s(
+    { trig = "def", dscr = "Definition" },
+    fmta(
+      [[
+        \begin{definition}[<>]
+          <>
+        \end{definition}
+      ]],
+      { i(1), i(2) }
+    ),
+    { condition = line_begin }
+  ),
+  s(
     { trig = "template", dscr = "Base template for new documents" },
     fmta(
       [[
