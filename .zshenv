@@ -3,6 +3,8 @@ path=(
   ~/.local/bin
   ~/Misc/texlive/2025/bin/x86_64-linux
   ~/Misc/juliaup/bin
+  ~/.ghcup/bin
+  ~/.cabal/bin
   ~/.config/emacs/bin
   $path
 )

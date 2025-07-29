@@ -12,16 +12,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      -- Lua language server setup.
-      local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = { diagnostics = { globals = { "vim" } } },
-        },
-      })
-
-      -- Pyright setup
-      lspconfig.pyright.setup({
+      vim.lsp.config("pyright", {
         settings = {
           pyright = {
             -- Using Ruff's import organizer
@@ -35,7 +26,12 @@ return {
           },
         },
       })
-      lspconfig.ruff.setup({})
+
+      vim.lsp.enable({
+        "lua_ls",
+        "pyright",
+        "ruff",
+      })
 
       -- Keybindings
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Display hover information" })

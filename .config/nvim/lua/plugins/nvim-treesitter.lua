@@ -8,7 +8,11 @@ return {
     configs.setup({
       ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "haskell", "python", "julia" },
       sync_install = false,
-      highlight = { enable = true },
+      auto_install = false,
+      highlight = {
+        enable = true,
+        disable = { "latex", "markdown" },
+      },
       indent = { enable = true },
     })
   end,

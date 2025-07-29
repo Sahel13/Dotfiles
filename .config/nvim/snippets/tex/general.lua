@@ -97,7 +97,7 @@ return {
           \item <>
         \end{itemize}
       ]],
-      { i(0) }
+      { i(1) }
     )
   ),
   s(
@@ -108,14 +108,17 @@ return {
           \item <>
         \end{enumerate}
       ]],
-      { i(0) }
+      { i(1) }
     )
   ),
 
   -- Text formatting commands.
   s({ trig = "bf", dscr = "\\textbf" }, fmta("\\textbf{<>}", { i(1) })),
-  s({ trig = "emp", dscr = "\\emph" }, fmta("\\emph{<>}", { i(1) })),
+  s({ trig = "em", dscr = "\\emph" }, fmta("\\emph{<>}", { i(1) })),
   s({ trig = "til", dscr = "\\tilde" }, fmta("\\tilde{<>}", { i(1) })),
+
+  -- Spacing commands
+  s({ trig = "vsp", dscr = "\\vspace" }, fmta("\\vspace{<>}", { i(1, "1ex") })),
 
   -- Citation commands.
   s({ trig = "tc", dscr = "\\textcite" }, fmta("\\textcite{<>}", { i(1) })),
@@ -131,6 +134,24 @@ return {
         \end{frame}
       ]],
       { i(1), i(0) }
+    )
+  ),
+  -- LaTeX Zettelkasten
+  s(
+    { trig = "zet", dscr = "Zettelkasten" },
+    fmta(
+      [[
+        \documentclass{zettelkasten}
+        \notetitle{<>}
+        \notedate{<>}
+        \begin{document}
+
+        <>
+
+        % \seealso \zl{}
+        \end{document}
+      ]],
+      { i(1), i(2), i(0) }
     )
   ),
 }

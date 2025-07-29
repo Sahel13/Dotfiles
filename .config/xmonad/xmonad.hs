@@ -187,6 +187,9 @@ topicItems =
     , noAction "chat" "~"
     , noAction "misc" "~"
     , TI "latex" "~/Documents/latex/" spawnTermInTopic
+    , TI "zet" "~/Documents/latex/zettelkasten/" spawnTermInTopic
+    , TI "cuthbert" "~/Code/cuthbert/" spawnTermInTopic
+    , inHome "emacs" $ spawn "emacsclient -nc"
     ]
 
 topicConfig :: TopicConfig
@@ -310,10 +313,9 @@ myKeys =
     , ("M-z", sendMessage MirrorExpand)
 
     -- Applications
-    , ("M-S-<Return>", spawn "ranger")
+    , ("M-S-<Return>", proc $ inTerm >-> execute "ranger")
     , ("M-M1-f", spawn "firefox")
     , ("M-M1-s", spawn "signal-desktop")
-    , ("M-e", spawn "emacsclient --create-frame --alternate-editor=''")
 
     -- Function keys
     , ("<XF86MonBrightnessUp>", spawn "/home/sahel/.local/scripts/backlight.sh +")

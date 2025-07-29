@@ -1,16 +1,19 @@
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 local tex_utils = {}
+
 tex_utils.in_math = function()
   -- This function requires the VimTeX plugin.
   return vim.fn["vimtex#syntax#in_mathzone"]() == 1
 end
+
 tex_utils.in_text = function()
   return not tex_utils.in_math()
 end
+
 return {
   s(
-    { trig = "frac", dscr = "\\frac", snippetType = "autosnippet" },
+    { trig = "ff", dscr = "\\frac", snippetType = "autosnippet" },
     fmta("\\frac{<>}{<>}", { i(1), i(2) }),
     { condition = tex_utils.in_math }
   ),

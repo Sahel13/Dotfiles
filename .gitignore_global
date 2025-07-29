@@ -1,3 +1,5 @@
 # Ignore the build directory for LaTeX files
 out_dir/
 aux_dir/
+.zed
+pyrightconfig.json
