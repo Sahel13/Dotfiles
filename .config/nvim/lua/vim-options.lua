@@ -13,7 +13,6 @@ vim.o.smartcase = true
 vim.o.termguicolors = true
 vim.o.scrolloff = 30
 vim.o.breakindent = true
-vim.o.textwidth = 100
 
 -- Turn on spell check.
 vim.o.spell = true
@@ -50,12 +49,5 @@ vim.keymap.set("n", "<Space>st", function()
 end, { desc = "Small terminal" })
 
 -- Diagnostics for lsp.
-vim.diagnostic.config({
-  virtual_text = {
-    prefix = "●",
-  },
-  severity_sort = true,
-  float = {
-    source = "always",
-  },
-})
+vim.diagnostic.config({ virtual_lines = true })
+vim.opt.winborder = "rounded"
