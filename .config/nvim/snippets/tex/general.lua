@@ -55,7 +55,7 @@ return {
         uniquename=minyearinit,
         ]{biblatex}
         % Print last name first in the bibliography.
-        \DeclareNameAlias{author}{family-given} 
+        \DeclareNameAlias{author}{family-given}
         % Don't print "In:" for the article type.
         \renewbibmacro{in:}{%
           \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
@@ -121,8 +121,10 @@ return {
   s({ trig = "vsp", dscr = "\\vspace" }, fmta("\\vspace{<>}", { i(1, "1ex") })),
 
   -- Citation commands.
-  s({ trig = "tc", dscr = "\\textcite" }, fmta("\\textcite{<>}", { i(1) })),
-  s({ trig = " pc", dscr = "\\parencite", wordTrig = false, regTrig = true }, fmta("~\\parencite{<>}", { i(1) })),
+  s({ trig = "ct", dscr = "\\citet", snippetType = "autosnippet" }, fmta("\\citet{<>}", { i(1) })),
+  s({ trig = " cp", dscr = "\\citep", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+    fmta("~\\citep{<>}", { i(1) })
+  ),
 
   -- Beamer commands.
   s(
