@@ -183,13 +183,14 @@ topicItems =
     [ noAction "main" "~"
     , noAction "work" "~"
     , inHome "web" $ spawn "firefox"
-    , noAction "code" "~"
+    , noAction "code" "~/Code/"
     , noAction "chat" "~"
     , noAction "misc" "~"
+    , TI "thesis" "~/Documents/latex/thesis/" spawnTermInTopic
     , TI "latex" "~/Documents/latex/" spawnTermInTopic
     , TI "zet" "~/Documents/latex/zettelkasten/" spawnTermInTopic
     , TI "cuthbert" "~/Code/cuthbert/" spawnTermInTopic
-    , inHome "emacs" $ spawn "emacsclient -nc"
+    , noAction "notes" "~"
     ]
 
 topicConfig :: TopicConfig
@@ -314,8 +315,10 @@ myKeys =
 
     -- Applications
     , ("M-S-<Return>", proc $ inTerm >-> execute "ranger")
-    , ("M-M1-f", spawn "firefox")
     , ("M-M1-s", spawn "signal-desktop")
+    , ("M-M1-f", spawn "firefox")
+    , ("M-e", spawn "emacsclient -c -a 'emacs'")
+    , ("M-b", spawn "blueman-manager")
 
     -- Function keys
     , ("<XF86MonBrightnessUp>", spawn "/home/sahel/.local/scripts/backlight.sh +")

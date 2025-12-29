@@ -50,5 +50,8 @@ nm-applet &
 # Break timer
 workrave &
 
+# Emacs
+/usr/bin/emacs --daemon &
+
 # Start xmonad
 exec xmonad

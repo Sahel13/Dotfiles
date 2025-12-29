@@ -30,3 +30,4 @@ format-pendrive () {
 
 # Command to backup my `Documents` directory.
 alias backup="~/.local/scripts/rclone_backup.sh"
+alias init_nvm=". /usr/share/nvm/init-nvm.sh"

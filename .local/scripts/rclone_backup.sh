@@ -8,15 +8,16 @@ find ~/Documents -type d -name '.git' | sed 's\.git\\' | sed 's\/home/sahel/Docu
 cat << EOF >> exclude-file.txt
 out_dir/
 aux_dir/
+.obsidian/
 EOF
 
 # Dry run to see what will be synced.
-rclone sync --dry-run --skip-links /home/sahel/Documents Dropbox:Thinkpad_Backup --exclude-from exclude-file.txt --exclude '.obsidian/'
+rclone sync --dry-run --skip-links /home/sahel/Documents Dropbox:Thinkpad_Backup --exclude-from exclude-file.txt
 
 read -p "Perform operations (y/n)? " confirmation
 case $confirmation in
   y)
-    rclone sync --skip-links --verbose /home/sahel/Documents Dropbox:Thinkpad_Backup --exclude-from exclude-file.txt --exclude '.obsidian/'
+    rclone sync --skip-links --verbose /home/sahel/Documents Dropbox:Thinkpad_Backup --exclude-from exclude-file.txt
     rm exclude-file.txt
   ;;
   *)

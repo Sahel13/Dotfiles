@@ -35,5 +35,10 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+alias claude="/home/sahel/.claude/local/claude"
+
 source $ZDOTDIR/extensions/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZDOTDIR/extensions/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# bun completions
+[ -s "/home/sahel/.bun/_bun" ] && source "/home/sahel/.bun/_bun"

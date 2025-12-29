@@ -1,16 +1,27 @@
+---@diagnostic disable: undefined-global
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 return {
   s(
-    { trig = "beg", dscr = "Generic environment", snippetType = "autosnippet" },
-    fmta(
-      [[
+    { trig = "beg", dscr = "Generic environment" },
+    c(1, {
+      fmta(
+        [[
         \begin{<>}
           <>
         \end{<>}
-      ]],
-      { i(1), i(0), rep(1) }
-    )
+        ]],
+        { i(1), i(2), rep(1) }
+      ),
+      fmta(
+        [[
+        \begin{<>}[<>]
+          <>
+        \end{<>}
+        ]],
+        { i(1), i(2), i(3), rep(1) }
+      ),
+    })
   ),
   s(
     { trig = "def", dscr = "Definition" },
@@ -29,6 +40,9 @@ return {
     fmta(
       [[
         \documentclass[12pt, a4paper]{article}
+
+        \usepackage[utf8]{inputenc}
+        \usepackage[T1]{fontenc}
 
         \usepackage{graphicx}
         \usepackage{amsmath,amssymb,amsthm,mathtools}
@@ -121,9 +135,18 @@ return {
   s({ trig = "vsp", dscr = "\\vspace" }, fmta("\\vspace{<>}", { i(1, "1ex") })),
 
   -- Citation commands.
-  s({ trig = "ct", dscr = "\\citet", snippetType = "autosnippet" }, fmta("\\citet{<>}", { i(1) })),
+  s({ trig = "ct", dscr = "\\citet" },
+    c(1, {
+      fmta("\\citet{<>}", { i(1) }),
+      fmta("\\citet[<>]{<>}", { i(2), i(1) }),
+      fmta("\\citet[<>][<>]{<>}", { i(2), i(3), i(1) }),
+    })
+  ),
   s({ trig = " cp", dscr = "\\citep", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
-    fmta("~\\citep{<>}", { i(1) })
+    c(1, {
+      fmta("~\\citep{<>}", { i(1) }),
+      fmta("~\\citep[<>][<>]{<>}", { i(2), i(3), i(1) }),
+    })
   ),
 
   -- Beamer commands.

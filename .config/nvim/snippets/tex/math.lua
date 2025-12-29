@@ -63,19 +63,6 @@ return {
     ),
     { condition = line_begin }
   ),
-  s(
-    {
-      trig = "([%a%}%)])%^t",
-      dscr = "Replace t with \\top for transpose.",
-      regTrig = true,
-      wordTrig = false,
-    },
-    fmta("<>^\\top", {
-      f(function(_, snip)
-        return snip.captures[1]
-      end),
-    })
-  ),
 
   -- Text commands.
   s({ trig = "bar", dscr = "\\bar" }, fmta("\\bar{<>}", { i(1) })),
@@ -84,6 +71,15 @@ return {
   s(
     { trig = "bb([%u])", dscr = "\\mathbb", regTrig = true, snippetType = "autosnippet" },
     fmta("\\mathbb{<>}", {
+      f(function(_, snip)
+        return snip.captures[1]
+      end),
+    }),
+    { condition = tex_utils.in_math }
+  ),
+  s(
+    { trig = "sf([%u])", dscr = "\\mathsf", regTrig = true, snippetType = "autosnippet" },
+    fmta("\\mathsf{<>}", {
       f(function(_, snip)
         return snip.captures[1]
       end),
