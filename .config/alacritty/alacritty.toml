@@ -59,3 +59,8 @@ dynamic_padding = true
 [window.padding]
 x = 5
 y = 5
+
+[keyboard]
+bindings = [
+  { key = "Slash", mods = "Control", chars = "\u001b[47;5u" },
+]
