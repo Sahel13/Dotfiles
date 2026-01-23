@@ -179,4 +179,6 @@ return {
       { i(1), i(2), i(0) }
     )
   ),
+  s({ trig = "into", dscr = "Inline todo" }, fmta("\\todo[inline]{<>}", { i(1) })
+  ),
 }

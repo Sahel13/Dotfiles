@@ -5,7 +5,9 @@ path=(
   ~/Misc/juliaup/bin
   ~/.ghcup/bin
   ~/.cabal/bin
+  ~/opt/cuda/bin
   ~/.config/emacs/bin
+  ~/.bun/bin
   $path
 )
 export PATH

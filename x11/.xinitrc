@@ -53,5 +53,8 @@ workrave &
 # Emacs
 /usr/bin/emacs --daemon &
 
+# Wallpaper
+~/.fehbg &
+
 # Start xmonad
 exec xmonad

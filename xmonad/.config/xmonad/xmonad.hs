@@ -145,6 +145,7 @@ myManageHook = composeAll
     , className =? "zoom" --> doShift "main"
     , className =? "Signal" --> doShift "chat"
     , className =? "discord" --> doShift "chat"
+    , className =? "Slack" --> doShift "chat"
     , isDialog --> doFloat
     , namedScratchpadManageHook myScratchpads
     ]
@@ -190,7 +191,10 @@ topicItems =
     , TI "latex" "~/Documents/latex/" spawnTermInTopic
     , TI "zet" "~/Documents/latex/zettelkasten/" spawnTermInTopic
     , TI "cuthbert" "~/Code/cuthbert/" spawnTermInTopic
-    , noAction "notes" "~"
+    , TI "notes" "~/Documents/notes/" spawnNotesInTopic
+    , TI "cpp" "~/Code/c_tutorials/" spawnTermInTopic
+    , TI "robust" "~/Code/robust_design/" spawnTermInTopic
+    , TI "areca" "~/Code/areca/" spawnTermInTopic
     ]
 
 topicConfig :: TopicConfig
@@ -204,6 +208,14 @@ topicConfig = def
 -- Spawn a terminal in the current topic directory.
 spawnTermInTopic :: X ()
 spawnTermInTopic = proc $ termInDir >-$ currentTopicDir topicConfig
+
+notesFile :: String
+notesFile = "/home/sahel/Documents/notes/index.md"
+
+spawnNotesInTopic :: X ()
+spawnNotesInTopic = do
+    dir <- currentTopicDir topicConfig
+    runInTerm "-t notes" ("sh -lc 'cd " ++ dir ++ " && nvim " ++ notesFile ++ "'")
 
 goto :: Topic -> X ()
 goto = switchTopic topicConfig
