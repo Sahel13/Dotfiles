@@ -2,43 +2,43 @@
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 return {
-  s(
-    { trig = "beg", dscr = "Generic environment" },
-    c(1, {
-      fmta(
-        [[
+    s(
+        { trig = "beg", dscr = "Generic environment" },
+        c(1, {
+            fmta(
+                [[
         \begin{<>}
           <>
         \end{<>}
         ]],
-        { i(1), i(2), rep(1) }
-      ),
-      fmta(
-        [[
+                { i(1), i(2), rep(1) }
+            ),
+            fmta(
+                [[
         \begin{<>}[<>]
           <>
         \end{<>}
         ]],
-        { i(1), i(2), i(3), rep(1) }
-      ),
-    })
-  ),
-  s(
-    { trig = "def", dscr = "Definition" },
-    fmta(
-      [[
+                { i(1), i(2), i(3), rep(1) }
+            ),
+        })
+    ),
+    s(
+        { trig = "def", dscr = "Definition" },
+        fmta(
+            [[
         \begin{definition}[<>]
           <>
         \end{definition}
       ]],
-      { i(1), i(2) }
+            { i(1), i(2) }
+        ),
+        { condition = line_begin }
     ),
-    { condition = line_begin }
-  ),
-  s(
-    { trig = "template", dscr = "Base template for new documents" },
-    fmta(
-      [[
+    s(
+        { trig = "template", dscr = "Base template for new documents" },
+        fmta(
+            [[
         \documentclass[12pt, a4paper]{article}
 
         \usepackage[utf8]{inputenc}
@@ -95,77 +95,79 @@ return {
 
         \end{document}
       ]],
-      { i(1), i(0) }
-    )
-  ),
-  -- Sectioning commands.
-  s({ trig = "sec", dscr = "Section" }, fmta("\\section{<>}", { i(1) }), { condition = line_begin }),
-  s({ trig = "sub", dscr = "Subsection" }, fmta("\\subsection{<>}", { i(1) }), { condition = line_begin }),
+            { i(1), i(0) }
+        )
+    ),
+    -- Sectioning commands.
+    s({ trig = "sec", dscr = "Section" }, fmta("\\section{<>}", { i(1) }), { condition = line_begin }),
+    s({ trig = "sub", dscr = "Subsection" }, fmta("\\subsection{<>}", { i(1) }), { condition = line_begin }),
 
-  -- Lists.
-  s(
-    { trig = "ite", dscr = "Unordered list" },
-    fmta(
-      [[
+    -- Lists.
+    s(
+        { trig = "ite", dscr = "Unordered list" },
+        fmta(
+            [[
         \begin{itemize}
           \item <>
         \end{itemize}
       ]],
-      { i(1) }
-    )
-  ),
-  s(
-    { trig = "enu", dscr = "Ordered list" },
-    fmta(
-      [[
+            { i(1) }
+        )
+    ),
+    s(
+        { trig = "enu", dscr = "Ordered list" },
+        fmta(
+            [[
         \begin{enumerate}
           \item <>
         \end{enumerate}
       ]],
-      { i(1) }
-    )
-  ),
+            { i(1) }
+        )
+    ),
 
-  -- Text formatting commands.
-  s({ trig = "bf", dscr = "\\textbf" }, fmta("\\textbf{<>}", { i(1) })),
-  s({ trig = "em", dscr = "\\emph" }, fmta("\\emph{<>}", { i(1) })),
-  s({ trig = "til", dscr = "\\tilde" }, fmta("\\tilde{<>}", { i(1) })),
+    -- Text formatting commands.
+    s({ trig = "bf", dscr = "\\textbf" }, fmta("\\textbf{<>}", { i(1) })),
+    s({ trig = "em", dscr = "\\emph" }, fmta("\\emph{<>}", { i(1) })),
+    s({ trig = "til", dscr = "\\tilde" }, fmta("\\tilde{<>}", { i(1) })),
 
-  -- Spacing commands
-  s({ trig = "vsp", dscr = "\\vspace" }, fmta("\\vspace{<>}", { i(1, "1ex") })),
+    -- Spacing commands
+    s({ trig = "vsp", dscr = "\\vspace" }, fmta("\\vspace{<>}", { i(1, "1ex") })),
 
-  -- Citation commands.
-  s({ trig = "ct", dscr = "\\citet" },
-    c(1, {
-      fmta("\\citet{<>}", { i(1) }),
-      fmta("\\citet[<>]{<>}", { i(2), i(1) }),
-      fmta("\\citet[<>][<>]{<>}", { i(2), i(3), i(1) }),
-    })
-  ),
-  s({ trig = " cp", dscr = "\\citep", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
-    c(1, {
-      fmta("~\\citep{<>}", { i(1) }),
-      fmta("~\\citep[<>][<>]{<>}", { i(2), i(3), i(1) }),
-    })
-  ),
+    -- Citation commands.
+    s(
+        { trig = "ct", dscr = "\\citet" },
+        c(1, {
+            fmta("\\citet{<>}", { i(1) }),
+            fmta("\\citet[<>]{<>}", { i(2), i(1) }),
+            fmta("\\citet[<>][<>]{<>}", { i(2), i(3), i(1) }),
+        })
+    ),
+    s(
+        { trig = " cp", dscr = "\\citep", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+        c(1, {
+            fmta("~\\citep{<>}", { i(1) }),
+            fmta("~\\citep[<>][<>]{<>}", { i(2), i(3), i(1) }),
+        })
+    ),
 
-  -- Beamer commands.
-  s(
-    { trig = "frame", dscr = "Frame" },
-    fmta(
-      [[
+    -- Beamer commands.
+    s(
+        { trig = "frame", dscr = "Frame" },
+        fmta(
+            [[
         \begin{frame}{<>}
           <>
         \end{frame}
       ]],
-      { i(1), i(0) }
-    )
-  ),
-  -- LaTeX Zettelkasten
-  s(
-    { trig = "zet", dscr = "Zettelkasten" },
-    fmta(
-      [[
+            { i(1), i(0) }
+        )
+    ),
+    -- LaTeX Zettelkasten
+    s(
+        { trig = "zet", dscr = "Zettelkasten" },
+        fmta(
+            [[
         \documentclass{zettelkasten}
         \notetitle{<>}
         \notedate{<>}
@@ -176,9 +178,8 @@ return {
         % \seealso \zl{}
         \end{document}
       ]],
-      { i(1), i(2), i(0) }
-    )
-  ),
-  s({ trig = "into", dscr = "Inline todo" }, fmta("\\todo[inline]{<>}", { i(1) })
-  ),
+            { i(1), i(2), i(0) }
+        )
+    ),
+    s({ trig = "into", dscr = "Inline todo" }, fmta("\\todo[inline]{<>}", { i(1) })),
 }
