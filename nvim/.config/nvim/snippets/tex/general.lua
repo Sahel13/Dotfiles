@@ -108,7 +108,7 @@ return {
         fmta(
             [[
         \begin{itemize}
-          \item <>
+            \item <>
         \end{itemize}
       ]],
             { i(1) }
@@ -119,7 +119,7 @@ return {
         fmta(
             [[
         \begin{enumerate}
-          \item <>
+            \item <>
         \end{enumerate}
       ]],
             { i(1) }
@@ -157,7 +157,7 @@ return {
         fmta(
             [[
         \begin{frame}{<>}
-          <>
+            <>
         \end{frame}
       ]],
             { i(1), i(0) }

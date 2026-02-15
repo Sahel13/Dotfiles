@@ -13,13 +13,7 @@ return {
         -- (Default) Only show the documentation popup when manually triggered
         completion = { documentation = { auto_show = false } },
         sources = {
-            default = { "lsp", "path", "snippets", "omni", "notes" },
-            providers = {
-                notes = {
-                    name = "Notes",
-                    module = "notes",
-                },
-            },
+            default = { "lsp", "path", "snippets", "omni" },
         },
     },
     opts_extend = { "sources.default" },

@@ -1,15 +1,49 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+title: Doom Emacs Config
+#+property: header-args:emacs-lisp :tangle config.el :comments no :lexical t
 
+My Doom Emacs `config.el` file.
+
+* File header
+The standard Doom file header plus lexical binding.
+
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+
+* Identity (optional)
+Doom can use these for templates, email clients, and GPG. Set them if needed.
+
+#+begin_src emacs-lisp
 ;; (setq user-full-name "John Doe"
 ;;       user-mail-address "john@doe.com")
+#+end_src
 
+* Fonts
+Set the font family and size.
+
+#+begin_src emacs-lisp
 (setq doom-font (font-spec :family "Mononoki Nerd Font Mono" :size 21))
+#+end_src
 
+* Theme and UI defaults
+Theme and line-number style.
+
+#+begin_src emacs-lisp
 (setq doom-theme 'catppuccin)
 (setq display-line-numbers-type 'relative)
+#+end_src
 
+* Org directory
+Org needs this before it loads.
+
+#+begin_src emacs-lisp
 (setq org-directory "~/Documents/org/")
+#+end_src
 
+* Org-roam
+Notes database and keybindings.
+
+#+begin_src emacs-lisp
 (use-package! org-roam
   :ensure t
   :custom
@@ -21,13 +55,23 @@
          ("C-c n c" . org-roam-capture))
   :config
   (org-roam-db-autosync-mode))
+#+end_src
 
+* Org face sizes
+Slightly larger headings for readability.
+
+#+begin_src emacs-lisp
 (custom-set-faces
  '(org-level-1 ((t (:height 1.3))))
  '(org-level-2 ((t (:height 1.2))))
  '(org-level-3 ((t (:height 1.1))))
  )
+#+end_src
 
+* Org mode configuration
+LaTeX rendering, capture templates, weekly review, and keybindings.
+
+#+begin_src emacs-lisp
 (use-package! org
   :config
   ;; Configure LaTeX support and rendering
@@ -66,14 +110,30 @@
   (map! :map org-mode-map
         :desc "Insert citation" "C-<return>" #'org-cite-insert)
   )
+#+end_src
 
+* Org keybindings after load
+Evil line navigation for visual lines.
+
+#+begin_src emacs-lisp
 (after! org
   (map! :map org-mode-map
         :n "j" #'evil-next-visual-line
         :n "k" #'evil-previous-visual-line))
+#+end_src
 
+* Capture shortcut
+Global capture binding.
+
+#+begin_src emacs-lisp
 (global-set-key (kbd "C-c c") #'org-capture)
+#+end_src
 
+* Writing mode
+Olivetti for text buffers and disable line numbers globally.
+
+#+begin_src emacs-lisp
 (setq olivetti-body-width 80)
 (add-hook 'text-mode-hook 'olivetti-mode)
 (setopt display-line-numbers-type nil)
+#+end_src
