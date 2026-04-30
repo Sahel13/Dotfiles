@@ -1,5 +1,8 @@
 # Dotfiles
 
+> [!NOTE]
+> This repository has moved to [Codeberg](https://codeberg.org/Sahel13/Dotfiles).
+
 Configuration files for various applications. These are managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Stow usage
